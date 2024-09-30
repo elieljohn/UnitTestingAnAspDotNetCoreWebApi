@@ -1152,6 +1152,19 @@
         "build": {
           "buildTransitive/netcoreapp3.1/_._": {}
         }
+      },
+      "TopLevelManagement/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/TopLevelManagement.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TopLevelManagement.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
@@ -3115,6 +3128,11 @@
         "system.threading.channels.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "TopLevelManagement/1.0.0": {
+      "type": "project",
+      "path": "../TopLevelManagement/TopLevelManagement.csproj",
+      "msbuildProject": "../TopLevelManagement/TopLevelManagement.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -3123,7 +3141,8 @@
       "Microsoft.EntityFrameworkCore >= 8.0.0",
       "Microsoft.EntityFrameworkCore.Sqlite >= 8.0.0",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.0",
-      "Swashbuckle.AspNetCore >= 6.5.0"
+      "Swashbuckle.AspNetCore >= 6.5.0",
+      "TopLevelManagement >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -3153,7 +3172,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\GitHub\\EJ\\AspDotNetCore\\UnitTestingAnAspDotNetCoreWebApi\\EmployeeManagement\\TopLevelManagement\\TopLevelManagement.csproj": {
+              "projectPath": "C:\\GitHub\\EJ\\AspDotNetCore\\UnitTestingAnAspDotNetCoreWebApi\\EmployeeManagement\\TopLevelManagement\\TopLevelManagement.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
