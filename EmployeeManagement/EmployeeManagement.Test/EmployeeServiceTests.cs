@@ -1,4 +1,6 @@
 ﻿using EmployeeManagement.Business;
+using EmployeeManagement.Business.Exceptions;
+using EmployeeManagement.DataAccess.Entities;
 using EmployeeManagement.Services.Test;
 using System;
 using System.Collections.Generic;
@@ -132,5 +134,39 @@ namespace EmployeeManagement.Test
             // Assert
             Assert.Equal(obligatoryCourses, internalEmployee.AttendedCourses);
         }
+
+        [Fact]
+        public async Task GiveRaise_RaiseBelowMinimumGiven_EmployeeInvalidRaiseExceptionMustBeThrown()
+        {
+            // Arrange 
+            var employeeService = new EmployeeService(
+                new EmployeeManagementTestDataRepository(),
+                new EmployeeFactory());
+            var internalEmployee = new InternalEmployee(
+                "Brooklyn", "Cannon", 5, 3000, false, 1);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<EmployeeInvalidRaiseException>(
+                async () =>
+                await employeeService.GiveRaiseAsync(internalEmployee, 50)
+                );
+        }
+
+        //[Fact]
+        //public void GiveRaise_RaiseBelowMinimumGiven_EmployeeInvalidRaiseExceptionMustBeThrown_Mistake()
+        //{
+        //    // Arrange 
+        //    var employeeService = new EmployeeService(
+        //        new EmployeeManagementTestDataRepository(),
+        //        new EmployeeFactory());
+        //    var internalEmployee = new InternalEmployee(
+        //        "Brooklyn", "Cannon", 5, 3000, false, 1);
+
+        //    // Act & Assert
+        //    Assert.ThrowsAsync<EmployeeInvalidRaiseException>(
+        //        async () =>
+        //        await employeeService.GiveRaiseAsync(internalEmployee, 50)
+        //        );
+        //}
     }
 }
