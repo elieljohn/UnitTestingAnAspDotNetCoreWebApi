@@ -1,4 +1,5 @@
 ﻿using EmployeeManagement.Business;
+using EmployeeManagement.DataAccess.Entities;
 using EmployeeManagement.Services.Test;
 using Moq;
 
@@ -24,6 +25,28 @@ namespace EmployeeManagement.Test
 
             // Assert  
             Assert.Equal(400, employee.SuggestedBonus);
+        }
+
+        [Fact]
+        public void CreateInternalEmployee_InternalEmployeeCreated_SuggestedBonusMustBeCalculated()
+        {
+            // Arrange
+            var employeeManagementTestDataRepository =
+              new EmployeeManagementTestDataRepository();
+            var employeeFactoryMock = new Mock<EmployeeFactory>();
+            var employeeService = new EmployeeService(
+                employeeManagementTestDataRepository,
+                employeeFactoryMock.Object);
+
+            // suggested bonus for new employees =
+            // (years in service if > 0) * attended courses * 100  
+            decimal suggestedBonus = 1000;
+
+            // Act 
+            var employee = employeeService.CreateInternalEmployee("Sandy", "Dockx");
+
+            // Assert  
+            Assert.Equal(suggestedBonus, employee.SuggestedBonus);
         }
     }
 }
