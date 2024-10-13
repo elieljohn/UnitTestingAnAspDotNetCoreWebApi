@@ -103,5 +103,32 @@ namespace EmployeeManagement.Test
             // Assert  
             Assert.Equal(400, employee.SuggestedBonus);
         }
+
+        [Fact]
+        public async Task FetchInternalEmployee_EmployeeFetched_SuggestedBonusMustBeCalculated_MoqInterface_Async()
+        {
+            // Arrange
+            var employeeManagementTestDataRepositoryMock =
+              new Mock<IEmployeeManagementRepository>();
+
+            employeeManagementTestDataRepositoryMock
+                .Setup(m => m.GetInternalEmployeeAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(new InternalEmployee("Tony", "Hall", 2, 2500, false, 2)
+                {
+                    AttendedCourses = new List<Course>() {
+                        new Course("A course"), new Course("Another course") }
+                });
+
+            var employeeFactoryMock = new Mock<EmployeeFactory>();
+            var employeeService = new EmployeeService(
+                employeeManagementTestDataRepositoryMock.Object,
+                employeeFactoryMock.Object);
+
+            // Act 
+            var employee = await employeeService.FetchInternalEmployeeAsync(Guid.Empty);
+
+            // Assert  
+            Assert.Equal(400, employee.SuggestedBonus);
+        }
     }
 }
