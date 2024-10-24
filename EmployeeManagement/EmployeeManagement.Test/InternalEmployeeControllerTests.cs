@@ -62,5 +62,22 @@ namespace EmployeeManagement.Test
                 ((OkObjectResult)actionResult.Result).Value);
         }
 
+        [Fact]
+        public async Task GetInternalEmployees_GetAction_MustReturnNumberOfInputtedInternalEmployees()
+        {
+            // Arrange
+
+            // Act
+            var result = await _internalEmployeesController.GetInternalEmployees();
+
+            // Assert
+            var actionResult = Assert
+                .IsType<ActionResult<IEnumerable<Models.InternalEmployeeDto>>>(result);
+
+            Assert.Equal(3,
+             ((IEnumerable<Models.InternalEmployeeDto>)
+             ((OkObjectResult)actionResult.Result).Value).Count());
+        }
+
     }
 }
