@@ -1,4 +1,5 @@
-﻿using EmployeeManagement.Business;
+﻿using AutoMapper;
+using EmployeeManagement.Business;
 using EmployeeManagement.Controllers;
 using EmployeeManagement.DataAccess.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -35,8 +36,17 @@ namespace EmployeeManagement.Test
                     new InternalEmployee("Anne", "Adams", 3, 4000, false, 3)
                 });
 
+            //var mapperMock = new Mock<IMapper>();
+            //mapperMock.Setup(m =>
+            //     m.Map<InternalEmployee, Models.InternalEmployeeDto>
+            //     (It.IsAny<InternalEmployee>()))
+            //     .Returns(new Models.InternalEmployeeDto());
+            var mapperConfiguration = new MapperConfiguration(
+                cfg => cfg.AddProfile<MapperProfiles.EmployeeProfile>());
+            var mapper = new Mapper(mapperConfiguration);
+
             _internalEmployeesController = new InternalEmployeesController(
-                employeeServiceMock.Object, null);
+                employeeServiceMock.Object, mapper);
 
         }
         [Fact]
