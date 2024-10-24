@@ -13,10 +13,10 @@ namespace EmployeeManagement.Test
 {
     public class InternalEmployeeControllerTests
     {
-        [Fact]
-        public async Task GetInternalEmployees_GetAction_MustReturnOkObjectResult()
+        private readonly InternalEmployeesController _internalEmployeesController;
+
+        public InternalEmployeeControllerTests()
         {
-            // Arrange
             var employeeServiceMock = new Mock<IEmployeeService>();
             employeeServiceMock
                 .Setup(m => m.FetchInternalEmployeesAsync())
@@ -27,11 +27,17 @@ namespace EmployeeManagement.Test
                     new InternalEmployee("Anne", "Adams", 3, 4000, false, 3)
                 });
 
-            var internalEmployeesController = new InternalEmployeesController(
+            _internalEmployeesController = new InternalEmployeesController(
                 employeeServiceMock.Object, null);
 
+        }
+        [Fact]
+        public async Task GetInternalEmployees_GetAction_MustReturnOkObjectResult()
+        {
+            // Arrange
+
             // Act
-            var result = await internalEmployeesController.GetInternalEmployees();
+            var result = await _internalEmployeesController.GetInternalEmployees();
 
             // Assert
             var actionResult = Assert
@@ -39,5 +45,22 @@ namespace EmployeeManagement.Test
             Assert.IsType<OkObjectResult>(actionResult.Result);
 
         }
+
+        [Fact]
+        public async Task GetInternalEmployees_GetAction_MustReturnIEnumerableOfInternalEmployeeDtoAsModelType()
+        {
+            // Arrange
+
+            // Act 
+            var result = await _internalEmployeesController.GetInternalEmployees();
+
+            // Assert
+            var actionResult = Assert
+                .IsType<ActionResult<IEnumerable<Models.InternalEmployeeDto>>>(result);
+
+            Assert.IsAssignableFrom<IEnumerable<Models.InternalEmployeeDto>>(
+                ((OkObjectResult)actionResult.Result).Value);
+        }
+
     }
 }
