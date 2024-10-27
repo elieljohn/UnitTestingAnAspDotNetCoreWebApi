@@ -4,6 +4,7 @@ using Xunit;
 
 namespace EmployeeManagement.Test
 {
+    [Collection("No parallelism")]
     public class EmployeeFactoryTests : IDisposable
     {
         private EmployeeFactory _employeeFactory;
@@ -101,6 +102,13 @@ namespace EmployeeManagement.Test
             // Assert
             Assert.IsType<ExternalEmployee>(employee);
             //Assert.IsAssignableFrom<Employee>(employee);
+        }
+
+        [Fact]
+        public void SlowTest1()
+        {
+            Thread.Sleep(5000);
+            Assert.True(true);
         }
     }
 }
